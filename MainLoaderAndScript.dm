@@ -1,38 +1,47 @@
 turf
+	space
+		icon = 'Space.dmi'
+		layer = 0
+		density = 1
+
+turf
    floor
       icon = 'IronFloor.dmi'
       layer = 1
+      underlays = list('Space.dmi')
    start
       icon = 'startimage.dmi'
       layer = 3
+      underlays = list('IronFloor.dmi', 'Space.dmi')
    wall
       icon = 'ironwall.dmi'
       density = 1
       layer = 2
       opacity = 1
-   space
-      icon = 'Space.dmi'
-      layer = 0
-      density = 0
+      underlays = list('IronFloor.dmi', 'Space.dmi')
    window
    	  icon = 'Window.dmi'
    	  layer = 2
    	  density = 1
    	  opacity = 0
+   	  underlays = list('IronFloor.dmi', 'Space.dmi')
    airlock
    	  icon = 'Airlock.dmi'
    	  layer = 2
    	  density = 1
    	  icon_state = "Close"
+   	  underlays = list('IronFloor.dmi', 'Space.dmi')
    shuttle_floor
    			icon = 'ShuttleFloor.dmi'
    			layer = 1
    			density = 0
+   			underlays = list('Space.dmi')
    shuttle_wall
    			icon = 'ShuttleWall.dmi'
    			layer = 2
    			opacity = 1
    			density = 1
+   			underlays = list('IronFloor.dmi', 'Space.dmi')
 mob
    icon = 'FunnyStick.dmi'
    icon_state = "Alive"
@@ -61,14 +70,15 @@ mob.verb.SayHealth()
 	else
 		usr << "You are dead!"
 
-mob.proc.TakeDamage(D)
+mob.proc.TakeDamage(D, mob/O)
 	if (health > 0)
 		health -= D
-		usr << "You took [D] damage!"
+		O << "You took [D] damage!"
 		if (health == 0)
 			Death()
 	else
-		usr << "Theres no more life force in you, you're dead!"
+		O << "Theres no more life force in you, you're dead!"
+
 
 mob
     var
@@ -82,8 +92,7 @@ mob
             return 0
 
 client/Click(mob/O)
-	if (O == mob)
-		O.TakeDamage(10)
+	O.TakeDamage(10, O)
 
 turf/airlock/Enter(O)
 	..()
