@@ -92,7 +92,7 @@ mob
             return 0
 
 client/Click(mob/O)
-	O.TakeDamage(10, O)
+	O.TakeDamage(25, O)
 
 turf/airlock/Enter(O)
 	..()
