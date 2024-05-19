@@ -94,10 +94,12 @@ mob
 client/Click(mob/O)
 	O.TakeDamage(25, O)
 
-turf/airlock/Enter(O)
-	..()
+
+turf/airlock/Enter(mob/O)
+	. = ..()
 	if (icon_state == "Close")
-		icon_state = "Open"
+		if (O.health > 0 )
+			icon_state = "Open"
 		if (icon_state == "Open")
 			spawn(30)
 			icon_state = "Close"
